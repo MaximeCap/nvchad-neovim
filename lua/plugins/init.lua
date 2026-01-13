@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -17,12 +17,12 @@ return {
   { import = "nvchad.blink.lazyspec" },
 
   {
-  	"nvim-treesitter/nvim-treesitter",
-  	opts = {
-  		ensure_installed = {
-  			"vim", "lua", "vimdoc",
-       "html", "css", "go", "ts", "tsx", "js", "jsx", "rust"
-  		},
-  	},
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
+    config = function()
+      local toInstall = require "configs.treesitter"
+      require("nvim-treesitter").install(toInstall)
+    end,
   },
 }
