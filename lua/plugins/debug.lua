@@ -1,17 +1,10 @@
 return {
   {
-    "rcarriga/nvim-dap-ui",
-    config = true,
-    keys = {
-      {
-        "<leader>du",
-        function()
-          require("dapui").toggle {}
-        end,
-        desc = "Dap UI",
-      },
-    },
-    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+
+    "igorlfs/nvim-dap-view",
+    ---@module 'dap-view'
+    ---@type dapview.Config
+    opts = {},
   },
   {
     "mfussenegger/nvim-dap",
