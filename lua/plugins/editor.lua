@@ -1,5 +1,9 @@
 return {
   {
+    "tpope/vim-surround",
+    lazy = false,
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
