@@ -1,10 +1,11 @@
 return {
   {
-
     "igorlfs/nvim-dap-view",
     ---@module 'dap-view'
     ---@type dapview.Config
-    opts = {},
+    opts = {
+      auto_toggle = "keep_terminal",
+    },
   },
   {
     "mfussenegger/nvim-dap",
@@ -63,6 +64,7 @@ return {
       ensure_installed = {
         "bash",
         "python",
+        "js-debug-adapter",
       },
     },
     dependencies = {

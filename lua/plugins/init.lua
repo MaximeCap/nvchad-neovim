@@ -1,5 +1,8 @@
 return {
   {
+    import = "plugins.lg",
+  },
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
@@ -14,34 +17,6 @@ return {
   },
 
   -- test new blink
-  { import = "nvchad.blink.lazyspec" },
-  {
-    "saghen/blink.cmp",
-    version = "1.*",
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      snippets = {
-        preset = "luasnip",
-      },
-      sources = {
-        default = { "lsp", "path", "buffer", "snippets" },
-        per_filetype = {
-          sql = { "snippets", "dadbod", "buffer" },
-        },
-        providers = {
-          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
-        },
-      },
-      signature = { enabled = true },
-      completion = {
-        trigger = {
-          prefetch_on_insert = false,
-        },
-      },
-    },
-    opts_extend = { "sources.default" },
-  },
 
   {
     "nvim-treesitter/nvim-treesitter",

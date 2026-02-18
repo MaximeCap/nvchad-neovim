@@ -14,7 +14,10 @@ local servers = {
   "lua_ls",
   "debugpy",
   "tailwindcss",
+  "yamlls",
+  "dockerls",
 }
+
 vim.lsp.enable(servers)
 
 -- Configure lua_ls for Neovim development

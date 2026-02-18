@@ -1,4 +1,120 @@
 return {
+  { import = "nvchad.blink.lazyspec" },
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      snippets = {
+        preset = "luasnip",
+      },
+      sources = {
+        default = { "lsp", "path", "buffer", "snippets" },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
+        },
+        providers = {
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+        },
+      },
+      signature = { enabled = true },
+      completion = {
+        trigger = {
+          prefetch_on_insert = false,
+        },
+      },
+    },
+    opts_extend = { "sources.default" },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    lazy = false,
+    config = function()
+      local lint = require "lint"
+
+      -- Configure linters by filetype
+      lint.events = { "BufReadPost", "BufNewFile", "BufWritePost" }
+      lint.linters_by_ft = {
+        fish = { "fish" },
+        javascript = { "eslint_d" },
+        typescript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
+        python = { "ruff" },
+        dockerfile = { "hadolint" },
+        -- Use the "*" filetype to run linters on all filetypes
+        -- ["*"] = { "typos" },
+        -- Use the "_" filetype for fallback linters
+        -- ["_"] = { "fallback_linter" },
+      }
+
+      -- Custom linter configuration (optional)
+      -- lint.linters.my_custom_linter = {
+      --   cmd = "my_linter",
+      --   args = { "--flag" },
+      --   condition = function(ctx)
+      --     return vim.fs.find({ "config.toml" }, { path = ctx.filename, upward = true })[1]
+      --   end,
+      -- }
+
+      -- Debounce function to avoid running linters too frequently
+      local function debounce(ms, fn)
+        local timer = vim.uv.new_timer()
+        return function(...)
+          local argv = { ... }
+          timer:start(ms, 0, function()
+            timer:stop()
+            vim.schedule_wrap(fn)(unpack(argv))
+          end)
+        end
+      end
+
+      -- Lint function
+      local function lint_current_buffer()
+        local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+        names = vim.list_extend({}, names)
+
+        -- Add fallback linters
+        if #names == 0 then
+          vim.list_extend(names, lint.linters_by_ft["_"] or {})
+        end
+
+        -- Add global linters
+        vim.list_extend(names, lint.linters_by_ft["*"] or {})
+
+        -- Filter out linters based on conditions
+        local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+        ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+
+        names = vim.tbl_filter(function(name)
+          local linter = lint.linters[name]
+          if not linter then
+            vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" })
+            return false
+          end
+          return not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+        end, names)
+
+        -- Run linters
+        if #names > 0 then
+          lint.try_lint(names)
+        end
+      end
+
+      -- Create autocmd to run linters
+      local lint_augroup = vim.api.nvim_create_augroup("nvim-lint", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = debounce(100, lint_current_buffer),
+      })
+
+      -- Optional: Add a command to manually trigger linting
+      vim.api.nvim_create_user_command("Lint", function()
+        lint_current_buffer()
+      end, { desc = "Trigger linting for current file" })
+    end,
+  },
   {
     "tpope/vim-surround",
     lazy = false,
