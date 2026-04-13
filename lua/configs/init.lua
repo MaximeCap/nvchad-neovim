@@ -2,6 +2,7 @@
 vim.pack.add { "https://github.com/nvim-mini/mini.nvim" }
 require("mini.pairs").setup {}
 require("mini.pick").setup {}
+require("mini.icons").setup {}
 vim.keymap.set("n", "<leader><leader>", "<cmd>Pick files<cr>")
 vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>")
 vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>")

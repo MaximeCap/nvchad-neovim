@@ -10,6 +10,7 @@ o.tabstop = 2 -- Number of spaces for a tab
 o.softtabstop = 2 -- Number of spaces for a tab when editing
 o.shiftwidth = 2 -- Number of spaces for autoindent
 o.conceallevel = 2
+o.termguicolors = true
 
 o.completeopt = "menuone,noselect,fuzzy"
 o.cursorlineopt = "both" -- to enable cursorline!

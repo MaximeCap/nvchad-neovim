@@ -12,9 +12,11 @@ local servers = {
   "gopls",
   "ts_ls",
   "tailwindcss",
+  "basedpyright",
   -- Formatter
   "biome",
   "stylua",
+  "ruff",
 }
 
 require("mason").setup {}
@@ -55,5 +57,3 @@ vim.diagnostic.config {
     prefix = "●",
   },
 }
-
-vim.lsp.completion.enable()
