@@ -16,6 +16,7 @@ local servers = {
   "tailwindcss",
   "yamlls",
   "dockerls",
+  "marksman",
 }
 
 vim.lsp.enable(servers)
