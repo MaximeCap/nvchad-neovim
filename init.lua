@@ -6,6 +6,9 @@ require "autocmds"
 require "configs"
 require "mappings"
 
+vim.pack.add { "https://github.com/rose-pine/neovim" }
+vim.cmd "colorscheme rose-pine"
+
 -- Old configuration nvim 0.11.4 with Lazyvim
 
 -- bootstrap lazy and all plugins

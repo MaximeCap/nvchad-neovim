@@ -53,3 +53,9 @@ require("conform").setup {
 
 -- LSP Plugin configuration
 require "configs.plugins.lsp"
+
+-- Lazydev
+require "configs.plugins.lazydev"
+
+-- Treesitter Manager
+require "configs.plugins.treesitter"
