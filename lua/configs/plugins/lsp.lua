@@ -1,5 +1,6 @@
 -- Lsp configuration
 vim.pack.add { "https://github.com/mason-org/mason.nvim" }
+vim.pack.add { "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" }
 vim.pack.add { "https://github.com/mason-org/mason-lspconfig.nvim" }
 vim.pack.add { "https://github.com/neovim/nvim-lspconfig" }
 vim.pack.add { "https://github.com/j-hui/fidget.nvim" }
@@ -13,14 +14,21 @@ local servers = {
   "ts_ls",
   "tailwindcss",
   "basedpyright",
+  -- Lint
+  "eslint",
   -- Formatter
   "biome",
   "stylua",
   "ruff",
+  "prettier",
+  "goimports",
 }
 
 require("mason").setup {}
 require("mason-lspconfig").setup {
+  automatic_enable = true,
+}
+require("mason-tool-installer").setup {
   ensure_installed = servers,
 }
 
@@ -44,7 +52,7 @@ require("mason-lspconfig").setup {
 -- }
 
 -- Activate LSP servers
-vim.lsp.enable(servers)
+-- vim.lsp.enable(servers)
 -- Activate inlay hint
 vim.lsp.inlay_hint.enable()
 -- Setup diagnostic to be writtenb even on insert mode

@@ -14,3 +14,5 @@ o.termguicolors = true
 
 o.completeopt = "menuone,noselect,fuzzy"
 o.cursorlineopt = "both" -- to enable cursorline!
+
+o.clipboard = "unnamedplus"
