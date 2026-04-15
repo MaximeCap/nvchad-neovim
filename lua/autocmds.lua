@@ -1,4 +1,13 @@
 -- require "nvchad.autocmds"
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
@@ -11,7 +20,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    -- local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     local bufnr = args.buf
     local map = function(mode, lhs, rhs, desc)
@@ -29,9 +38,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.buf.format { async = true }
     end, "Format buffer")
 
-    if client ~= nil and client:supports_method "textDocument/completion" then
-      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-    end
+    -- if client ~= nil and client:supports_method "textDocument/completion" then
+    --   vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    -- end
   end,
 })
 
@@ -44,7 +53,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     vim.wo.foldmethod = "expr"
     vim.wo.foldenable = false
-    -- indentation, provided by nvim-treesitter
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+local group = vim.api.nvim_create_augroup("BlinkCmpLazyLoad", { clear = true })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*",
+  group = group,
+  once = true,
+  callback = function()
+    local opts = require "configs.plugins.completion"
+    require("blink.cmp").setup(opts)
   end,
 })

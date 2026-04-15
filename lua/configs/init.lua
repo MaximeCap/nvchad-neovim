@@ -32,7 +32,11 @@ require("oil").setup {
     show_hidden = true,
   },
 }
+
 vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
+
+-- Completion configuration
+require "configs.plugins.completion"
 
 -- Conform configuration
 require "configs.plugins.conform"
