@@ -3,8 +3,11 @@ vim.g.mapleader = " "
 
 require "options"
 require "autocmds"
-require "configs"
 require "mappings"
+
+vim.schedule(function()
+  require "configs"
+end)
 
 vim.pack.add { "https://github.com/rose-pine/neovim" }
 vim.cmd "colorscheme rose-pine"
