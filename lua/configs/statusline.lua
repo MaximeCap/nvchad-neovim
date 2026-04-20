@@ -206,7 +206,7 @@ function M.build()
   -- local fnm = fn.expand("%:t")
   local fnm = fn.expand "%:."
   if fnm ~= "" then
-    st = st .. "%#StatusFile# " .. fnm .. " " .. (vim.bo.modified and " " or "") .. "%#StatusFileToNorm#"
+    st = st .. "%#StatusFile# " .. fnm .. " " .. (vim.bo.modified and "  " or "") .. "%#StatusFileToNorm#"
   end
 
   local di = get_diagnostics()
