@@ -17,6 +17,7 @@ o.swapfile = false
 o.completeopt = "menuone,noselect,fuzzy,popup"
 o.winborder = "rounded"
 o.ignorecase = true
+o.cmdheight = 0
 
 -- TODO see the effect
 o.cursorlineopt = "both" -- to enable cursorline!

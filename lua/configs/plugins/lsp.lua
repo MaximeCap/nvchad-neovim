@@ -22,6 +22,9 @@ local servers = {
   "ruff",
   "prettier",
   "goimports",
+  -- dap
+  "delve",
+  "debugpy",
 }
 
 require("mason").setup {}

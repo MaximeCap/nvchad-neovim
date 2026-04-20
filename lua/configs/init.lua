@@ -5,9 +5,10 @@ require("fzf-lua").setup {
 }
 
 vim.keymap.set("n", "<leader><leader>", "<cmd>FzfLua files<cr>")
-vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua grep_visual<cr>")
+vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>")
 vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>")
 vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua helptags<cr>")
+vim.keymap.set("n", "<leader>fws", "<cmd>FzfLua lsp_workspace_symbols<cr>")
 
 -- Mini configuration
 vim.pack.add { "https://github.com/nvim-mini/mini.nvim" }
@@ -52,3 +53,9 @@ require "configs.plugins.treesitter"
 
 -- Obsidian
 require "configs.plugins.obsidian"
+
+-- Debug configuration
+require "configs.plugins.dap"
+
+-- statusline
+require "configs.statusline"
