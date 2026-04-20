@@ -83,8 +83,8 @@ local function get_git_branch()
   local gs = vim.b.gitsigns_status_dict
   if gs and gs.root then
     -- Extract repo name from the root path
-    local repo_name = vim.fn.fnamemodify(gs.root, ":t")
-    return repo_name .. "/" .. branch
+    --local repo_name = vim.fn.fnamemodify(gs.root, ":t")
+    return branch
   end
 
   return branch
@@ -96,7 +96,7 @@ local function build_git_diff()
   local changed = gs.changed or 0
   local removed = gs.removed or 0
 
-  local diff_str = ""
+  local diff_str = " "
   if added > 0 then
     diff_str = diff_str .. "%#StatusDiffAdd# " .. added .. " "
   end
