@@ -244,6 +244,6 @@ end
 
 vim.opt.laststatus = 3 -- global statusline
 vim.opt.showmode = false -- Dont show mode since we have a statusline
-vim.o.statusline = "%!v:lua.require('configs.statusline').build()"
+vim.o.statusline = "%!v:lua.require('config.statusline').build()"
 
 return M

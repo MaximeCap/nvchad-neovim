@@ -20,8 +20,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    -- local client = vim.lsp.get_client_by_id(args.data.client_id)
-
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
     local map = function(mode, lhs, rhs, desc)
       vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
@@ -34,13 +33,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "gr", vim.lsp.buf.references, "References")
     map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-    map("n", "<leader>f", function()
+    map("n", "<leader>lf", function()
       vim.lsp.buf.format { async = true }
-    end, "Format buffer")
+    end, "Format buffer (LSP)")
 
-    -- if client ~= nil and client:supports_method "textDocument/completion" then
-    --   vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-    -- end
+    -- Highlight references of the symbol under the cursor on CursorHold.
+    -- Fires after `updatetime` ms (250ms in options.lua).
+    if client and client:supports_method "textDocument/documentHighlight" then
+      local hl_group = vim.api.nvim_create_augroup("lsp_document_highlight_" .. bufnr, { clear = true })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.document_highlight,
+      })
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = hl_group,
+        buffer = bufnr,
+        callback = vim.lsp.buf.clear_references,
+      })
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("lsp_document_highlight_detach_" .. bufnr, { clear = true }),
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.clear_references()
+          pcall(vim.api.nvim_del_augroup_by_id, hl_group)
+        end,
+      })
+    end
   end,
 })
 
@@ -63,7 +82,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   group = group,
   once = true,
   callback = function()
-    local opts = require "configs.plugins.completion"
+    local opts = require "plugins.completion"
     require("blink.cmp").setup(opts)
   end,
 })

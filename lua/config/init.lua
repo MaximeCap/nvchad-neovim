@@ -84,25 +84,25 @@ require("oil").setup {
 vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
 
 -- Completion configuration
-require "configs.plugins.completion"
+require "plugins.completion"
 
 -- Conform configuration
-require "configs.plugins.conform"
+require "plugins.conform"
 
 -- LSP Plugin configuration
-require "configs.plugins.lsp"
+require "plugins.lsp"
 
 -- Lazydev
-require "configs.plugins.lazydev"
+require "plugins.lazydev"
 
 -- Treesitter Manager
-require "configs.plugins.treesitter"
+require "plugins.treesitter"
 
 -- Obsidian
-require "configs.plugins.obsidian"
+require "plugins.obsidian"
 
 -- Debug configuration
-require "configs.plugins.dap"
+require "plugins.dap"
 
 -- statusline
-require "configs.statusline"
+require "config.statusline"

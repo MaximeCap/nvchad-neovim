@@ -5,7 +5,7 @@ require("conform").setup {
     lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
-    go = { "goimport" },
+    go = { "goimports", "gofumpt" },
     javascript = { "prettierd", "prettier", "biome", stop_after_first = true },
     javascriptreact = { "prettierd", "prettier", "biome", stop_after_first = true },
     typescript = { "prettierd", "prettier", "biome", stop_after_first = true },

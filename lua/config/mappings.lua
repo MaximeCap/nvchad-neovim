@@ -20,7 +20,7 @@ map("n", "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
 
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
-map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
+map("n", "<leader>tr", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 
 map({ "n", "x" }, "<leader>fm", function()
   require("conform").format { lsp_fallback = true }
@@ -28,7 +28,6 @@ end, { desc = "general format file" })
 
 -- global lsp mappings
 map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 
 -- Comment
 map("n", "<leader>gcc", "gcc", { desc = "toggle comment", remap = true })
@@ -42,3 +41,23 @@ map("n", "gK", function()
   local new_config = not vim.diagnostic.config().virtual_lines
   vim.diagnostic.config { virtual_lines = new_config }
 end, { desc = "Toggle diagnostic virtual_lines" })
+
+-- QoL: keep cursor centered on half-page jumps & search nav
+map("n", "<C-d>", "<C-d>zz", { desc = "half page down (centered)" })
+map("n", "<C-u>", "<C-u>zz", { desc = "half page up (centered)" })
+map("n", "n", "nzzzv", { desc = "next search (centered)" })
+map("n", "N", "Nzzzv", { desc = "prev search (centered)" })
+
+-- Move selected lines in visual mode
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
+
+-- Paste over selection without clobbering the unnamed register
+map("x", "<leader>p", [["_dP]], { desc = "paste without yank" })
+
+-- Explicit system clipboard yank (works regardless of clipboard setting)
+map({ "n", "v" }, "<leader>y", [["+y]], { desc = "yank to system clipboard" })
+map("n", "<leader>Y", [["+Y]], { desc = "yank line to system clipboard" })
+
+-- Delete to blackhole register
+map({ "n", "v" }, "<leader>D", [["_d]], { desc = "delete without yank" })
