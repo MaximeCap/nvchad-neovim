@@ -12,7 +12,7 @@ end)
 vim.pack.add { "https://github.com/rose-pine/neovim" }
 require("rose-pine").setup {
   styles = {
-    transparency = false,
+    transparency = true,
   },
 }
 

@@ -2,17 +2,42 @@ vim.pack.add {
   "https://github.com/mplusp/pack-manager.nvim",
 }
 
--- Fzf-lua
-vim.pack.add { "https://github.com/ibhagwan/fzf-lua" }
-require("fzf-lua").setup {
-  ui_select = true,
+-- Oil configuration
+vim.pack.add { "https://github.com/stevearc/oil.nvim" }
+
+require("oil").setup {
+  win_options = {
+    signcolumn = "yes:1",
+  },
+  view_options = {
+    show_hidden = true,
+  },
 }
 
-vim.keymap.set("n", "<leader><leader>", "<cmd>FzfLua files<cr>")
-vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>")
-vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>")
-vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua helptags<cr>")
-vim.keymap.set("n", "<leader>fws", "<cmd>FzfLua lsp_workspace_symbols<cr>")
+vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
+
+-- Snacks Configuration
+vim.pack.add { "https://github.com/folke/snacks.nvim" }
+require("snacks").setup {
+  input = { enabled = true },
+  picker = { enabled = true, layout = "ivy" },
+}
+
+vim.keymap.set("n", "<leader><leader>", function()
+  Snacks.picker.files()
+end)
+vim.keymap.set("n", "<leader>fg", function()
+  Snacks.picker.grep()
+end)
+vim.keymap.set("n", "<leader>fb", function()
+  Snacks.picker.buffers()
+end)
+vim.keymap.set("n", "<leader>fh", function()
+  Snacks.picker.help()
+end)
+vim.keymap.set("n", "<leader>fws", function()
+  Snacks.picker.lsp_workspace_symbols()
+end)
 
 -- Mini configuration
 vim.pack.add { "https://github.com/nvim-mini/mini.nvim" }
@@ -69,20 +94,6 @@ require("gitsigns").setup {
   end,
 }
 
--- Oil configuration
-vim.pack.add { "https://github.com/stevearc/oil.nvim" }
-
-require("oil").setup {
-  win_options = {
-    signcolumn = "yes:1",
-  },
-  view_options = {
-    show_hidden = true,
-  },
-}
-
-vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
-
 -- Completion configuration
 require "plugins.completion"
 
@@ -98,6 +109,15 @@ require "plugins.lazydev"
 -- Treesitter Manager
 require "plugins.treesitter"
 
+-- Auto close/rename HTML/JSX tags
+require "plugins.autotag"
+
+-- Motion / jump labels
+require "plugins.flash"
+
+-- Diagnostics / quickfix UI
+require "plugins.trouble"
+
 -- Obsidian
 require "plugins.obsidian"
 
@@ -106,3 +126,21 @@ require "plugins.dap"
 
 -- statusline
 require "config.statusline"
+
+-- Tmux helper
+require "plugins.tmux"
+
+-- Overseer
+require "plugins.overseer"
+
+-- Avante
+require "plugins.avante"
+
+-- CodeCompanion
+require "plugins.codecompanion"
+
+require "plugins.surround"
+
+require "plugins.todos"
+
+require "plugins.ai"

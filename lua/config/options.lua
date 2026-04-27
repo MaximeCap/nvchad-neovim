@@ -14,7 +14,7 @@ o.completeopt = "menuone,noselect,fuzzy,popup"
 o.winborder = "rounded"
 o.ignorecase = true
 o.smartcase = true -- case-sensitive search if an uppercase char is typed
-o.cmdheight = 0
+o.cmdheight = 1
 
 -- TODO see the effect
 o.cursorlineopt = "both" -- to enable cursorline!

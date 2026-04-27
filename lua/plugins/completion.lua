@@ -1,4 +1,5 @@
 vim.pack.add {
+  { src = "http://github.com/Kaiser-Yang/blink-cmp-avante" },
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range "^1" },
 }
 
@@ -7,6 +8,20 @@ return {
   signature = { enabled = true },
   keymap = {
     preset = "default",
+  },
+
+  sources = {
+    default = {
+      "avante",
+      "lsp",
+      "buffer",
+    },
+    providers = {
+      avante = {
+        module = "blink-cmp-avante",
+        name = "Avante",
+      },
+    },
   },
 
   appearance = {
@@ -28,6 +43,4 @@ return {
   cmdline = {
     enabled = true,
   },
-
-  sources = { default = { "lsp" } },
 }
