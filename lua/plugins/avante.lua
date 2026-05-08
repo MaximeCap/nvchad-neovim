@@ -1,47 +1,63 @@
-local avante_repo = "https://github.com/yetone/avante.nvim"
-
-vim.pack.add {
+local ensure = require("config.lazy").loader({
+  "https://github.com/HakonHarnes/img-clip.nvim",
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/MunifTanjim/nui.nvim",
-  avante_repo,
-}
-
-require("avante").setup {
-  provider = "codex",
-  acp_providers = {
-    ["opencode"] = {
-      command = "opencode",
-      args = { "acp" },
+  "https://github.com/yetone/avante.nvim",
+}, function()
+  require("img-clip").setup {
+    default = {
+      embed_image_as_base64 = false,
+      prompt_for_file_name = false,
+      drag_and_drop = {
+        insert_mode = true,
+      },
+      -- required for Windows users
+      use_absolute_path = true,
     },
-    ["codex"] = {
-      command = "npx",
-      args = { "@zed-industries/codex-acp" },
-      env = {
-        NODE_NO_WARNINGS = "1",
-        OPENAI_API_KEY = os.getenv "AVANTE_OPENAI_API_KEY",
+  }
+
+  require("avante").setup {
+    provider = "openai",
+    acp_providers = {
+      ["opencode"] = {
+        command = "opencode",
+        args = { "acp" },
+      },
+      ["codex"] = {
+        command = "npx",
+        args = { "@zed-industries/codex-acp" },
+        env = {
+          NODE_NO_WARNINGS = "1",
+          OPENAI_API_KEY = os.getenv "AVANTE_OPENAI_API_KEY",
+        },
       },
     },
-  },
-  providers = {
-    openai = {
-      endpoint = "http://localhost:8080/openai/v1",
-      model = "gpt-5.3-codex",
-      disable_tools = true,
+    providers = {
+      openai = {
+        endpoint = "http://localhost:8080/openai/v1",
+        model = "gpt-5.3-codex",
+      },
+      claude = {
+        auth_type = "pro",
+      },
     },
-    claude = {
-      auth_type = "pro",
+    selector = {
+      provider = "snacks",
+      provider_opts = {},
     },
-  },
-  selector = {
-    provider = "snacks",
-    provider_opts = {},
-  },
-  input = {
-    provider = "snacks",
-    provider_opts = {
-      -- Additional snacks.input options
-      title = "Avante Input",
-      icon = " ",
+    input = {
+      provider = "snacks",
+      provider_opts = {
+        title = "Avante Input",
+        icon = " ",
+      },
     },
-  },
-}
+  }
+end)
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  group = vim.api.nvim_create_augroup("lazy_avante", { clear = true }),
+  once = true,
+  callback = ensure,
+})

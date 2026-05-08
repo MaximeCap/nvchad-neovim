@@ -1,73 +1,55 @@
--- Lsp configuration
-vim.pack.add { "https://github.com/mason-org/mason.nvim" }
-vim.pack.add { "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" }
-vim.pack.add { "https://github.com/mason-org/mason-lspconfig.nvim" }
-vim.pack.add { "https://github.com/neovim/nvim-lspconfig" }
-vim.pack.add { "https://github.com/j-hui/fidget.nvim" }
+local ensure = require("config.lazy").loader({
+  "https://github.com/mason-org/mason.nvim",
+  "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+  "https://github.com/mason-org/mason-lspconfig.nvim",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/j-hui/fidget.nvim",
+}, function()
+  require("fidget").setup {}
 
-require("fidget").setup {}
+  local servers = {
+    -- Language
+    "lua_ls",
+    "gopls",
+    "vtsls",
+    "tailwindcss",
+    "basedpyright",
+    -- Lint
+    "eslint",
+    "sqlfluff",
+    -- Formatter
+    "biome",
+    "stylua",
+    "ruff",
+    "prettier",
+    "goimports",
+    "sqlfmt",
+    -- dap
+    "delve",
+    "debugpy",
+  }
 
-local servers = {
-  -- Language
-  "lua_ls",
-  "gopls",
-  "ts_ls",
-  "tailwindcss",
-  "basedpyright",
-  -- Lint
-  "eslint",
-  -- Formatter
-  "biome",
-  "stylua",
-  "ruff",
-  "prettier",
-  "goimports",
-  -- dap
-  "delve",
-  "debugpy",
-}
+  require("mason").setup {}
+  require("mason-lspconfig").setup {
+    automatic_enable = true,
+  }
+  require("mason-tool-installer").setup {
+    ensure_installed = servers,
+  }
 
-require("mason").setup {}
-require("mason-lspconfig").setup {
-  automatic_enable = true,
-}
-require("mason-tool-installer").setup {
-  ensure_installed = servers,
-}
+  -- Advertise blink.cmp's richer completion capabilities to every LSP server.
+  local ok_blink, blink = pcall(require, "blink.cmp")
+  if ok_blink then
+    vim.lsp.config("*", { capabilities = blink.get_lsp_capabilities() })
+  end
 
--- local servers = {
---   "html",
---   "cssls",
---   "rust_analyzer",
---   "delve",
---   "biome",
---   "vtsls",
---   "gopls",
---   "eslint",
---   "basedpyright",
---   "ruff",
---   "lua_ls",
---   "debugpy",
---   "tailwindcss",
---   "yamlls",
---   "dockerls",
---   "marksman",
--- }
+  vim.lsp.inlay_hint.enable()
+end)
 
--- Advertise blink.cmp's richer completion capabilities to every LSP server
--- (without this, servers don't know to send e.g. snippet/additionalTextEdits)
-local ok_blink, blink = pcall(require, "blink.cmp")
-if ok_blink then
-  vim.lsp.config("*", { capabilities = blink.get_lsp_capabilities() })
-end
-
--- Activate LSP servers
--- vim.lsp.enable(servers)
--- Activate inlay hint
-vim.lsp.inlay_hint.enable()
-
+-- Diagnostic styling is cheap and doesn't pull plugins — set it up front
+-- so messages render correctly the moment any LSP server attaches.
 vim.diagnostic.config {
-  severity_sort = true, -- sort by severity so errors render on top of warnings etc.
+  severity_sort = true,
   update_in_insert = true,
   underline = true,
   float = {
@@ -96,3 +78,9 @@ vim.diagnostic.config {
     prefix = "●",
   },
 }
+
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("lazy_lsp", { clear = true }),
+  once = true,
+  callback = ensure,
+})

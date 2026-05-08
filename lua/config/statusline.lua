@@ -111,12 +111,32 @@ local function build_git_diff()
   return diff_str .. "%#StatusLine#"
 end
 
--- Diagnostics symbols
+-- Diagnostics symbols. Cache per buffer; invalidate on DiagnosticChanged.
+local diag_cache = {}
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+  group = vim.api.nvim_create_augroup("statusline_diag_cache", { clear = true }),
+  callback = function(args)
+    diag_cache[args.buf] = nil
+  end,
+})
+vim.api.nvim_create_autocmd({ "BufWipeout", "BufDelete" }, {
+  group = vim.api.nvim_create_augroup("statusline_diag_cache_clean", { clear = true }),
+  callback = function(args)
+    diag_cache[args.buf] = nil
+  end,
+})
+
 local function get_diagnostics()
   if not vim.diagnostic then
     return ""
   end
-  local d = vim.diagnostic.get(0)
+  local buf = vim.api.nvim_get_current_buf()
+  local cached = diag_cache[buf]
+  if cached ~= nil then
+    return cached
+  end
+  local d = vim.diagnostic.get(buf)
   local e, w, i, h = 0, 0, 0, 0
   for _, v in ipairs(d) do
     if v.severity == vim.diagnostic.severity.ERROR then
@@ -145,19 +165,29 @@ local function get_diagnostics()
   end
 
   -- reset to StatusLine for following text
-  return s .. "%#StatusLine#"
+  s = s .. "%#StatusLine#"
+  diag_cache[buf] = s
+  return s
 end
 
--- File icon
+-- File icon via mini.icons. Cache per filetype+extension.
+local file_icon_cache = {}
 local function get_file_icon()
-  local ok, icons = pcall(require, "nvim-web-devicons")
+  local ft = vim.bo.filetype
+  local ext = fn.expand "%:e"
+  local key = ft .. ":" .. ext
+  local cached = file_icon_cache[key]
+  if cached ~= nil then
+    return cached
+  end
+  local ok, MiniIcons = pcall(require, "mini.icons")
   if not ok then
     return ""
   end
-  local f = fn.expand "%:t"
-  local e = fn.expand "%:e"
-  local icon = icons.get_icon(f, e, { default = true })
-  return icon and icon .. " " or ""
+  local icon = MiniIcons.get("file", fn.expand "%:t")
+  local result = icon and (icon .. " ") or ""
+  file_icon_cache[key] = result
+  return result
 end
 
 -- Word count & reading time

@@ -1,146 +1,48 @@
-vim.pack.add {
-  "https://github.com/mplusp/pack-manager.nvim",
-}
+-- Tier 3 entry point — runs from init.lua's vim.schedule, after Oil/Snacks
+-- are already up. Each plugins/* file registers a lazy trigger; nothing
+-- here calls setup() eagerly except gitsigns (statusline depends on it).
 
--- Oil configuration
-vim.pack.add { "https://github.com/stevearc/oil.nvim" }
+-- Gitsigns — eager (statusline reads vim.b.gitsigns_*).
+require "plugins.gitsigns"
 
-require("oil").setup {
-  win_options = {
-    signcolumn = "yes:1",
-  },
-  view_options = {
-    show_hidden = true,
-  },
-}
-
-vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
-
--- Snacks Configuration
-vim.pack.add { "https://github.com/folke/snacks.nvim" }
-require("snacks").setup {
-  input = { enabled = true },
-  picker = { enabled = true, layout = "ivy" },
-}
-
-vim.keymap.set("n", "<leader><leader>", function()
-  Snacks.picker.files()
-end)
-vim.keymap.set("n", "<leader>fg", function()
-  Snacks.picker.grep()
-end)
-vim.keymap.set("n", "<leader>fb", function()
-  Snacks.picker.buffers()
-end)
-vim.keymap.set("n", "<leader>fh", function()
-  Snacks.picker.help()
-end)
-vim.keymap.set("n", "<leader>fws", function()
-  Snacks.picker.lsp_workspace_symbols()
-end)
-
--- Mini configuration
-vim.pack.add { "https://github.com/nvim-mini/mini.nvim" }
-require("mini.pairs").setup {}
-require("mini.icons").setup {}
-
-vim.pack.add { "https://github.com/lewis6991/gitsigns.nvim" }
-
-require("gitsigns").setup {
-  on_attach = function(bufnr)
-    local gitsigns = require "gitsigns"
-
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
-    -- Navigation
-    map("n", "]c", function()
-      if vim.wo.diff then
-        vim.cmd.normal { "]c", bang = true }
-      else
-        gitsigns.nav_hunk "next"
-      end
-    end)
-
-    map("n", "[c", function()
-      if vim.wo.diff then
-        vim.cmd.normal { "[c", bang = true }
-      else
-        gitsigns.nav_hunk "prev"
-      end
-    end)
-
-    map("n", "<leader>hb", function()
-      gitsigns.blame_line { full = true }
-    end)
-
-    map("n", "<leader>hd", gitsigns.diffthis)
-
-    map("n", "<leader>hD", function()
-      gitsigns.diffthis "~"
-    end)
-
-    map("n", "<leader>hQ", function()
-      gitsigns.setqflist "all"
-    end)
-    map("n", "<leader>hq", gitsigns.setqflist)
-
-    -- Toggles
-    map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
-    map("n", "<leader>tw", gitsigns.toggle_word_diff)
+-- mini.pairs — InsertEnter is the right moment.
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = vim.api.nvim_create_augroup("lazy_mini_pairs", { clear = true }),
+  once = true,
+  callback = function()
+    require("mini.pairs").setup {}
   end,
-}
+})
 
--- Completion configuration
-require "plugins.completion"
+-- pack-manager — only needed when the user manages packs interactively.
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  once = true,
+  callback = function()
+    vim.pack.add { "https://github.com/mplusp/pack-manager.nvim" }
+  end,
+})
 
--- Conform configuration
+-- Lazy-trigger registrations for the rest of the plugin set.
 require "plugins.conform"
-
--- LSP Plugin configuration
 require "plugins.lsp"
-
--- Lazydev
 require "plugins.lazydev"
-
--- Treesitter Manager
 require "plugins.treesitter"
-
--- Auto close/rename HTML/JSX tags
 require "plugins.autotag"
-
--- Motion / jump labels
 require "plugins.flash"
-
--- Diagnostics / quickfix UI
 require "plugins.trouble"
-
--- Obsidian
 require "plugins.obsidian"
-
--- Debug configuration
 require "plugins.dap"
-
--- statusline
-require "config.statusline"
-
--- Tmux helper
 require "plugins.tmux"
-
--- Overseer
 require "plugins.overseer"
-
--- Avante
-require "plugins.avante"
-
--- CodeCompanion
-require "plugins.codecompanion"
-
 require "plugins.surround"
-
 require "plugins.todos"
-
+require "plugins.avante"
 require "plugins.ai"
+require "plugins.lazygit"
+
+-- This file runs inside vim.schedule from init.lua, which executes after
+-- VimEnter has already fired — so trigger VeryLazy directly.
+vim.defer_fn(function()
+  vim.api.nvim_exec_autocmds("User", { pattern = "VeryLazy", modeline = false })
+end, 100)
