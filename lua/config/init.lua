@@ -42,6 +42,7 @@ require "plugins.ai"
 require "plugins.lazygit"
 require "plugins.claude"
 require "plugins.codex"
+require "plugins.likec4"
 
 -- This file runs inside vim.schedule from init.lua, which executes after
 -- VimEnter has already fired — so trigger VeryLazy directly.

@@ -3,13 +3,37 @@ vim.g.mapleader = " "
 require "config.options"
 
 -- Tier 1 — pre-paint: colorscheme so the very first frame is correct.
-vim.pack.add { "https://github.com/rose-pine/neovim" }
-require("rose-pine").setup {
-  styles = {
-    transparency = false,
-  },
-}
-vim.cmd "colorscheme rose-pine"
+vim.pack.add { "https://github.com/rebelot/kanagawa.nvim" }
+require("kanagawa").setup {}
+vim.cmd "colorscheme kanagawa"
+
+local state_file = vim.fn.stdpath "state" .. "/bg_state"
+
+local f = io.open(state_file, "r")
+
+if f then
+  local saved_bg = f:read "*l"
+  f:close()
+  if saved_bg == "dark" or saved_bg == "light" then
+    vim.o.background = saved_bg
+  end
+end
+
+local function toggle_background()
+  -- Toggle the setting
+  local new_bg = vim.o.background == "dark" and "light" or "dark"
+  vim.o.background = new_bg
+
+  -- Save the new setting to the state file
+  local file = io.open(state_file, "w")
+  if file then
+    file:write(new_bg)
+    file:close()
+    print("Background set to " .. new_bg .. " (saved)")
+  end
+end
+
+vim.keymap.set("n", "<leader>us", toggle_background, { desc = "Toggle between light and dar" })
 
 -- Pure-Lua statusline; no plugin deps.
 require "config.statusline"
