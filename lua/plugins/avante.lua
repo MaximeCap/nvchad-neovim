@@ -17,25 +17,21 @@ local ensure = require("config.lazy").loader({
   }
 
   require("avante").setup {
-    provider = "openai",
+    provider = "codex",
     acp_providers = {
-      ["opencode"] = {
-        command = "opencode",
-        args = { "acp" },
-      },
       ["codex"] = {
         command = "npx",
         args = { "@zed-industries/codex-acp" },
         env = {
           NODE_NO_WARNINGS = "1",
-          OPENAI_API_KEY = os.getenv "AVANTE_OPENAI_API_KEY",
+          OPENAI_API_KEY = os.getenv "OPENAI_API_KEY",
         },
       },
     },
     providers = {
       openai = {
         endpoint = "http://localhost:8080/openai/v1",
-        model = "gpt-5.3-codex",
+        model = "gpt-5.4-mini",
       },
       claude = {
         auth_type = "pro",
