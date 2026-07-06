@@ -2,8 +2,8 @@ local ensure = require("config.lazy").loader({ "https://github.com/stevearc/conf
   require("conform").setup {
     formatters_by_ft = {
       lua = { "stylua" },
-      css = { "prettier" },
-      html = { "prettier" },
+      css = { "biome", "prettier" },
+      html = { "biome", "prettier" },
       go = { "goimports", "gofumpt" },
       javascript = { "biome", "prettierd", "prettier", stop_after_first = true },
       javascriptreact = { "biome", "prettierd", "prettier", stop_after_first = true },

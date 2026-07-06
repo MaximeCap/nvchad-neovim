@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 local o = vim.o
 o.number = true
 o.relativenumber = true
@@ -40,3 +42,35 @@ o.updatetime = 250 -- faster CursorHold & gitsigns blame
 o.timeoutlen = 400 -- snappier leader chords
 o.jumpoptions = "stack,view" -- saner jumplist behavior
 o.virtualedit = "block" -- free-form movement in visual-block mode
+
+-- Diagnostics — UI globale, posée au démarrage (indépendante du plugin LSP).
+vim.diagnostic.config {
+  severity_sort = true,
+  update_in_insert = false, -- évite le flicker pendant la saisie
+  underline = true,
+  float = {
+    border = "rounded",
+    source = "if_many",
+    header = "",
+    prefix = "",
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    },
+  },
+  virtual_text = {
+    spacing = 2,
+    source = "if_many",
+    prefix = "●",
+  },
+}

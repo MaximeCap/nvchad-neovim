@@ -1,38 +1,23 @@
-local ensure = require("config.lazy").loader(
-  { "https://github.com/folke/trouble.nvim" },
-  function()
-    require("trouble").setup {}
-  end
-)
-
-local map = vim.keymap.set
-
-map("n", "<leader>xx", function()
-  ensure()
-  vim.cmd "Trouble diagnostics toggle"
-end, { desc = "Diagnostics (Trouble)" })
-
-map("n", "<leader>xb", function()
-  ensure()
-  vim.cmd "Trouble diagnostics toggle filter.buf=0"
-end, { desc = "Buffer Diagnostics (Trouble)" })
-
-map("n", "<leader>xs", function()
-  ensure()
-  vim.cmd "Trouble symbols toggle focus=false"
-end, { desc = "Symbols (Trouble)" })
-
-map("n", "<leader>xr", function()
-  ensure()
-  vim.cmd "Trouble lsp toggle focus=false win.position=right"
-end, { desc = "LSP Refs/Defs/Impls (Trouble)" })
-
-map("n", "<leader>xl", function()
-  ensure()
-  vim.cmd "Trouble loclist toggle"
-end, { desc = "Location List (Trouble)" })
-
-map("n", "<leader>xq", function()
-  ensure()
-  vim.cmd "Trouble qflist toggle"
-end, { desc = "Quickfix List (Trouble)" })
+-- Trouble — listes de diagnostics/symboles. Chargé via la commande `Trouble`
+-- ou ses keymaps.
+return {
+  "folke/trouble.nvim",
+  cmd = "Trouble",
+  opts = {},
+  keys = {
+    { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+    {
+      "<leader>xb",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+      desc = "Buffer Diagnostics (Trouble)",
+    },
+    { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
+    {
+      "<leader>xr",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Refs/Defs/Impls (Trouble)",
+    },
+    { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+    { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+  },
+}
