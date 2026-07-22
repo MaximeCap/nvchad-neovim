@@ -2,7 +2,14 @@ return {
   "rebelot/kanagawa.nvim",
   lazy = false,
   priority = 1000,
-  opts = {},
+  opts = {
+    transparent = true,
+    dimInactive = true,
+    background = {
+      dark = "wave",
+      light = "lotus",
+    },
+  },
   config = function(_, opts)
     local state_file = vim.fn.stdpath "state" .. "/bg_state"
 

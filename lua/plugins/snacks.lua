@@ -2,13 +2,19 @@ return {
   "folke/snacks.nvim",
   opts = {
     input = { enabled = true },
-    picker = { enabled = true, layout = "ivy" },
+    picker = { enabled = true, layout = "select" },
   },
   keys = {
     {
       "<leader><leader>",
       function()
         Snacks.picker.files()
+      end,
+    },
+    {
+      "<leader>fr",
+      function()
+        Snacks.picker.recent()
       end,
     },
     {
