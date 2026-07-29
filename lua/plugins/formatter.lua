@@ -28,6 +28,7 @@ return {
       css = { "biome", "prettier", stop_after_first = true },
       html = { "biome", "prettier", stop_after_first = true },
       go = { "goimports", "gofumpt" }, -- les deux : goimports gère les imports, gofumpt le style
+      json = { "biome" },
       javascript = { "biome", "prettierd", "prettier", stop_after_first = true },
       javascriptreact = { "biome", "prettierd", "prettier", stop_after_first = true },
       typescript = { "biome", "prettierd", "prettier", stop_after_first = true },
