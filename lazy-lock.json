@@ -3,6 +3,7 @@
   "agentic.nvim": { "branch": "main", "commit": "42291a18abff5906326e3e289ded41da8126f31a" },
   "blink.cmp": { "branch": "main", "commit": "dbcf63b90b358f058637ea370202e3849013383b" },
   "blink.lib": { "branch": "main", "commit": "2789206e10a0e4880f808c2aaf52bc57d876b481" },
+  "claudecode.nvim": { "branch": "main", "commit": "2390c6e45c4789072c293ac69de051d169668b29" },
   "conform.nvim": { "branch": "master", "commit": "619363c30309d29ffa631e67c8183f2a72caa373" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "fidget.nvim": { "branch": "main", "commit": "6f793b2bcd2d35e201c09520f698bb763220908a" },
