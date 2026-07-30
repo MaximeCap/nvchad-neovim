@@ -22,16 +22,8 @@ map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
 map("n", "<leader>tr", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 
-map({ "n", "x" }, "<leader>fm", function()
-  require("conform").format { lsp_fallback = true }
-end, { desc = "general format file" })
-
 -- global lsp mappings
 map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
-
--- Comment
-map("n", "<leader>gcc", "gcc", { desc = "toggle comment", remap = true })
-map("v", "<leader>gc", "gc", { desc = "toggle comment", remap = true })
 
 -- terminal
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })

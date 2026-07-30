@@ -1,42 +1,51 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 local o = vim.o
-o.number = true
-o.relativenumber = true
+
+-- Indentation
 o.autoindent = true -- Enable auto indentation
 o.expandtab = true -- Use spaces instead of tabs
 o.tabstop = 2 -- Number of spaces for a tab
 o.softtabstop = 2 -- Number of spaces for a tab when editing
 o.shiftwidth = 2 -- Number of spaces for autoindent
-o.conceallevel = 2
+o.breakindent = true -- wrapped lines preserve indentation
+
+-- UI
+o.number = true
+o.relativenumber = true
 o.termguicolors = true
+o.winborder = "rounded"
+o.signcolumn = "yes" -- always show the sign column (prevents text jitter)
+o.cursorline = true
+o.cursorlineopt = "both"
+o.conceallevel = 2
+o.cmdheight = 1
+o.wrap = false
+o.linebreak = true -- if wrap is toggled on, break at word boundaries
+o.textwidth = 100
+
+-- Search
+o.ignorecase = true
+o.smartcase = true -- case-sensitive search if an uppercase char is typed
+o.inccommand = "split"
+
+-- Files
 o.undofile = true
 o.swapfile = false
 o.completeopt = "menuone,noselect,fuzzy,popup"
-o.winborder = "rounded"
-o.ignorecase = true
-o.smartcase = true -- case-sensitive search if an uppercase char is typed
-o.cmdheight = 1
-
--- TODO see the effect
-o.cursorlineopt = "both" -- to enable cursorline!
-o.inccommand = "split"
-o.cursorline = true
-o.textwidth = 100
--- o.listchars = "tab: ,multispace:|   ,space:·"
--- o.list = true
 o.clipboard = "unnamedplus"
 
--- QoL
-o.scrolloff = 8 -- keep 8 lines visible around the cursor
-o.sidescrolloff = 8
-o.signcolumn = "yes" -- always show the sign column (prevents text jitter)
+-- Splits & scrolling
 o.splitright = true -- vertical splits open to the right
 o.splitbelow = true -- horizontal splits open below
+o.scrolloff = 8 -- keep 8 lines visible around the cursor
+o.sidescrolloff = 8
 o.smoothscroll = true -- wrap-aware scrolling for <C-d>/<C-u> (0.10+)
-o.wrap = false
-o.linebreak = true -- if wrap is toggled on, break at word boundaries
-o.breakindent = true -- wrapped lines preserve indentation
+
+-- QoL
+o.title = true -- set terminal window title to current file
+o.autoread = true -- reload buffer if file changes on disk outside nvim
 o.confirm = true -- prompt to save instead of failing on :q with unsaved changes
 o.updatetime = 250 -- faster CursorHold & gitsigns blame
 o.timeoutlen = 400 -- snappier leader chords

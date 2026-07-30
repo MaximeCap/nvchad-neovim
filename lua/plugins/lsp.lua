@@ -28,7 +28,6 @@ local tools = {
   "jsonls",
   -- Linters
   "eslint",
-  "sqlfluff",
   -- Formatters
   "biome",
   "stylua",

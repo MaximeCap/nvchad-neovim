@@ -2,9 +2,29 @@ return {
   "folke/snacks.nvim",
   opts = {
     input = { enabled = true },
-    picker = { enabled = true, layout = "select" },
+    picker = {
+      enabled = true,
+      layout = "select",
+      sources = {
+        files = { hidden = true },
+        grep = { hidden = true },
+        explorer = { hidden = true },
+      },
+    },
+    bigfile = { enabled = true }, -- désactive treesitter/LSP sur les gros fichiers
+    notifier = { enabled = true }, -- remplace vim.notify
+    words = { enabled = true }, -- surligne les références LSP sous le curseur
+    indent = { enabled = true },
+    scope = { enabled = true },
   },
   keys = {
+    {
+      "<leader>un",
+      function()
+        Snacks.notifier.show_history()
+      end,
+      desc = "Notification history",
+    },
     {
       "<leader><leader>",
       function()
