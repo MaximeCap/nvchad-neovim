@@ -25,6 +25,7 @@ local tools = {
   "basedpyright",
   "docker_language_server",
   "yamlls",
+  "helm-ls",
   "jsonls",
   -- Linters
   "eslint",

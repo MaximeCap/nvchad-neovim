@@ -29,6 +29,8 @@ return {
         "tsx",
         "html",
         "go",
+        "yaml",
+        "helm",
         -- bases utiles pour éditer Neovim/Lua + markdown
         "lua",
         "luadoc",
