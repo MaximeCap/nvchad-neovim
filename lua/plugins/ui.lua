@@ -47,7 +47,7 @@ return {
     event = "VeryLazy",
     opts = {
       spec = {
-        { "<leader>a", group = "AI / Agentic" },
+        { "<leader>a", group = "AI / Sidekick" },
       },
     },
     keys = {
