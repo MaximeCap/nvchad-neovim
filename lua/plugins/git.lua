@@ -1,20 +1,5 @@
 return {
   {
-    "NeogitOrg/neogit",
-    lazy = true,
-    dependencies = {
-      -- Only one of these is needed.
-      "esmuellert/codediff.nvim", -- optional
-      -- For a custom log pager
-      "m00qek/baleia.nvim", -- optional
-      "folke/snacks.nvim", -- optional
-    },
-    cmd = "Neogit",
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
-    },
-  },
-  {
     "sindrets/diffview.nvim",
     opts = {},
   },
@@ -74,7 +59,6 @@ return {
   -- Lazygit — chargé à la demande (commande ou keymap).
   {
     "kdheepak/lazygit.nvim",
-    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = {
       "LazyGit",
