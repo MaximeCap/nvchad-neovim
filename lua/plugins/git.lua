@@ -56,19 +56,22 @@ return {
     },
   },
 
-  -- Lazygit — chargé à la demande (commande ou keymap).
+  -- Neogit — chargé à la demande (commande ou keymap).
   {
-    "kdheepak/lazygit.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    cmd = "Neogit",
+    opts = {
+      integrations = {
+        diffview = true,
+        snacks = true,
+      },
     },
     keys = {
-      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "Lazygit" },
+      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
     },
   },
 }

@@ -21,9 +21,10 @@ o.cursorline = true
 o.cursorlineopt = "both"
 o.conceallevel = 2
 o.cmdheight = 1
-o.wrap = false
+o.wrap = true
 o.linebreak = true -- if wrap is toggled on, break at word boundaries
 o.textwidth = 100
+o.cc = "100"
 
 -- Search
 o.ignorecase = true
