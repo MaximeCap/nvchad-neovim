@@ -22,6 +22,11 @@ map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
 map("n", "<leader>tr", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 
+map("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Tab next" })
+map("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Tab previous" })
+map("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Tab close" })
+map("n", "<leader>tc", "<cmd>tabnew<CR>", { desc = "Tab new" })
+
 -- global lsp mappings
 map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
 

@@ -1,0 +1,35 @@
+return {
+  "nwiizo/codex.nvim",
+  event = "VeryLazy", -- load before selecting text to show Ask/Edit hints
+  cmd = {
+    "Codex",
+    "CodexOpen",
+    "CodexFocus",
+    "CodexResume",
+    "CodexContinue",
+    "CodexFork",
+    "CodexReview",
+    "CodexImage",
+    "CodexPrompt",
+    "CodexAsk",
+    "CodexAskVisual",
+    "CodexFollowUp",
+    "CodexEdit",
+    "CodexSend",
+    "CodexSendVisual",
+    "CodexAddVisual",
+    "CodexAdd",
+    "CodexTreeAdd",
+    "CodexDiff",
+    "CodexInterrupt",
+    "CodexStatus",
+    "CodexStop",
+    "CodexHealth",
+  },
+  opts = {
+    terminal = {
+      layout = "float",
+      hide_keys = { "<C-/>", "<C-_>" },
+    },
+  },
+}

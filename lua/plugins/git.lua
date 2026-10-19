@@ -1,8 +1,4 @@
 return {
-  {
-    "sindrets/diffview.nvim",
-    opts = {},
-  },
   -- Gitsigns — chargé tôt (sur ouverture d'un vrai fichier) car la statusline
   -- lit `vim.b.gitsigns_*`. Toutes les maps git vivent dans `on_attach` : elles
   -- ne sont posées que sur les buffers réellement suivis par git.
@@ -57,21 +53,21 @@ return {
   },
 
   -- Neogit — chargé à la demande (commande ou keymap).
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-    },
-    cmd = "Neogit",
-    opts = {
-      integrations = {
-        diffview = true,
-        snacks = true,
-      },
-    },
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
-    },
-  },
+  -- {
+  --   "NeogitOrg/neogit",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "sindrets/diffview.nvim",
+  --   },
+  --   cmd = "Neogit",
+  --   opts = {
+  --     integrations = {
+  --       diffview = true,
+  --       snacks = true,
+  --     },
+  --   },
+  --   keys = {
+  --     { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
+  --   },
+  -- },
 }
