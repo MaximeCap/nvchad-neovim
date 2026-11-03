@@ -1,5 +1,12 @@
 return {
   {
+    "omacom-io/aether.nvim",
+    branch = "v3",
+    name = "aether",
+    lazy = true, -- chargé à la demande par :colorscheme aether
+    opts = { transparent = true },
+  },
+  {
     "rebelot/kanagawa.nvim",
     lazy = false,
     priority = 1000,
@@ -25,7 +32,11 @@ return {
       end
 
       require("kanagawa").setup(opts)
-      vim.cmd "colorscheme kanagawa"
+
+      -- Thème persistant + sélecteur (:Theme / <leader>ut)
+      local theme = require "config.theme"
+      theme.load()
+      vim.keymap.set("n", "<leader>ut", theme.pick, { desc = "Theme picker" })
 
       local function toggle_background()
         local new_bg = vim.o.background == "dark" and "light" or "dark"
